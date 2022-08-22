@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import React from 'react';
 
 //Librerías externas//
-import XLSX  from 'xlsx';
+import * as XLSX  from 'xlsx';
 import Swal from 'sweetalert2'
 
 
@@ -19,12 +19,22 @@ import './report.css'
 
 //Librería//
 
-export const ReportApp = () => 
+export class ReportApp extends React.Component
 {
-    const [showModal, setShowModal] = useState(false);
+    constructor(props) {
+        super(props);
+        this.state = {
+          hoja: "",
+          hojas:[],
+          file: false
+        };
+    
+        this.handleInputChange = this.handleInputChange.bind(this)
+      }
 
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
+    render()
+    {
+
 
     const mostrarAlerta = () => 
     {
@@ -35,12 +45,48 @@ export const ReportApp = () =>
             'success'
         )
     }
+
+
+    //Input de Archivos - Function//
+    const handleInputChange = (event) => 
+    {
+        const target = event.target
+        const value = target.type === 'checkbox' ? target.checked : target.value
+        const name = target.name
+        const this2 = this
+        this.setStateExcel({
+          [name]: value
+        })
+        let hojas = []
+        if (name === 'file') {
+          let reader = new FileReader()
+          reader.readAsArrayBuffer(target.files[0])
+          reader.onloadend = (e) => {
+            let data = new Uint8Array(e.target.result);
+            let workbook = XLSX.read(data, {type: 'array'});
+    
+            workbook.SheetNames.forEach(function(sheetName) {
+              // Here is your object
+              let XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+              hojas.push({
+                data: XL_row_object,
+                sheetName
+              })
+            })
+            this2.setStateExcel({
+              selectedFileDocument: target.files[0],
+              hojas
+            })
+          }
+        }
+      } 
+
     return (
         <>
         
             <h1>Excel a Data <code>json</code></h1>
             <hr className='mb-5' />
-            <Button onClick={handleShow} className='btn-labeled mb-5' variant="success">
+            <Button  className='btn-labeled mb-5' variant="success">
                 <span className='btn-label'>
                     <i className="fa fa-file-excel"></i>
                 </span>
@@ -70,28 +116,8 @@ export const ReportApp = () =>
                     </tr>
                 </tbody>
             </Table>
-            <Modal aria-labelledby="contained-modal-title-vcenter"
-                    centered show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <i class="fa fa-file-excel"></i> &nbsp;
-                        Subir Archivo
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <input type="file" className='form-control'/>
-                </Modal.Body>
-                <Modal.Footer className='spacing-buttons'>
-                <Button variant="danger" onClick={handleClose}>
-                    <i class="fa-solid fa-circle-xmark"></i>&nbsp;
-                    Cancelar
-                </Button>
-                <Button variant="success" onClick={() => {handleClose(); mostrarAlerta()}}>
-                    <i class="fa-solid fa-circle-check"></i>&nbsp;
-                    Subir Archivo
-                </Button>
-                </Modal.Footer>
-            </Modal>
+            
         </>
     )
+    }
 }
