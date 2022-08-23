@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ReportApp } from './reports/report' 
+import { PrincipalView } from './PrincipalView/PrincipalView' 
 import 'bootstrap/dist/css/bootstrap.css';
-import GetDataFromExcelJusTInput from './GetDataFromExcelJusTInput';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GetDataFromExcelJusTInput />
+    <PrincipalView />
   </React.StrictMode>
 );
 
