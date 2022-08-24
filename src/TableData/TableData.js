@@ -1,5 +1,4 @@
 //Hooks//
-import { useEffect, useState } from 'react';
 
 //Props//
 import PropTypes from 'prop-types';
@@ -8,28 +7,23 @@ import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
 
 //Importar Componentes//
-export const TableData = ({data,encabezados,value}) => 
-{
-
-    const [ counter, setCounter ] = useState(value) 
-
+export const TableData = ({ data, encabezados }) => {
 
     return (
         <>
             <Table striped bordered hover>
-                {
-                    counter !== 0 &&
-                    <thead>
+
+                <thead>
                     <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
                     </tr>
-                  </thead>
-                }
+                </thead>
+
                 <tbody>
-                    
+
                     <tr>
                         <td>1</td>
                         <td>Mark</td>
@@ -48,21 +42,20 @@ export const TableData = ({data,encabezados,value}) =>
                         <td>Cárdenas</td>
                         <td>rcardenas</td>
                     </tr>
-                    
-                    
+
+
                 </tbody>
             </Table>
-        
         </>
     )
 }
 
-TableData.propTypes = 
+TableData.propTypes =
 {
     value: PropTypes.number.isRequired,
 }
 
-TableData.defaultProps = 
+TableData.defaultProps =
 {
     value: 0,
 }

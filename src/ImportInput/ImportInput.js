@@ -3,6 +3,10 @@ import React from 'react'
 import * as XLSX from 'xlsx'
 import Swal from 'sweetalert2';
 
+//Componentes de Bootstrap//
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 //Importación de Componentes//
 import { TableData } from '../TableData/TableData';
 
@@ -39,9 +43,11 @@ const alertNotValidExtension = ()=>
   })
 }
 
+
+
 class GetDataFromExcelJusTInput extends React.Component 
 {
-
+  
   constructor(props) 
   {
     super(props);
@@ -49,10 +55,24 @@ class GetDataFromExcelJusTInput extends React.Component
     {
       hoja: "",
       hojas:[],
-      file: false
+      file: false,
+      show: false
     };
+
     this.handleInputChange = this.handleInputChange.bind(this)
+
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    
+
   }
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
 
   //Valida las Extensiones//
   validExtension (extension)
@@ -104,6 +124,7 @@ class GetDataFromExcelJusTInput extends React.Component
           });
           //Obtener los Datos//
           dataArchivo = hojas[0].data
+          console.table(dataArchivo)
           encabezados = Object.keys(hojas[0].data[1]);
           let value = encabezados.length;
           TableData({dataArchivo, encabezados, value})
@@ -121,20 +142,51 @@ class GetDataFromExcelJusTInput extends React.Component
       }
     }
   } 
+
+
   render() {
     const {
       handleInputChange
-    } = this
+    } = this 
     return (
+      
       <>
-        <input className="form-control"
-            required 
-            type="file" 
-            name="file" 
-            id="file" 
-            onChange={handleInputChange} 
-            placeholder="Archivo de excel" 
-        />
+      <Button onClick={this.showModal} className='btn-labeled mb-5' variant="success">
+          <span className='btn-label'>
+              <i className="fa fa-file-excel"></i>
+          </span>
+          Excel
+      </Button>
+ 
+
+      <Modal show={this.state.show} onHide={this.hideModal} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header closeButton>
+            <Modal.Title>
+                <i className="fa fa-file-excel"></i> &nbsp;
+                  Subir Archivo
+            </Modal.Title>
+        </Modal.Header>
+          <Modal.Body>
+            <input className="form-control"
+              required 
+              type="file" 
+              name="file" 
+              id="file" 
+              onChange={handleInputChange} 
+              placeholder="Archivo de excel" 
+            />
+          </Modal.Body>
+                <Modal.Footer className='spacing-buttons'>
+                <Button onClick={this.hideModal} variant="danger">
+                    <i className="fa-solid fa-circle-xmark"></i>&nbsp;
+                    Cancelar
+                </Button>
+                <Button variant="success" >
+                    <i className="fa-solid fa-circle-check"></i>&nbsp;
+                    Subir Archivo
+                </Button>
+                </Modal.Footer>
+            </Modal>
       </> 
     );
   }
