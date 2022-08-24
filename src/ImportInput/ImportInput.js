@@ -56,15 +56,16 @@ class GetDataFromExcelJusTInput extends React.Component
       hoja: "",
       hojas:[],
       file: false,
-      show: false
+      show: false,
+      dataExist: [],
+      encabezados: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this)
 
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    
-
+  
   }
   showModal = () => {
     this.setState({ show: true });
@@ -105,8 +106,8 @@ class GetDataFromExcelJusTInput extends React.Component
     let splitFile = value.split('.')
     this.validExtension(splitFile[1])
     let hojas = []
-    let dataArchivo;
-    let encabezados;
+    let dataArchivo = [];
+    let encabezados = [];
     if (name === 'file') {
       let reader = new FileReader()
       reader.readAsArrayBuffer(target.files[0])
@@ -122,24 +123,30 @@ class GetDataFromExcelJusTInput extends React.Component
             data: XL_row_object,
             sheetName
           });
-          //Obtener los Datos//
-          dataArchivo = hojas[0].data
-          console.table(dataArchivo)
-          encabezados = Object.keys(hojas[0].data[1]);
-          let value = encabezados.length;
-          TableData({dataArchivo, encabezados, value})
-          //Obtener Encabezados//
-          for(let column of encabezados)
+          //Obtener los Encabezados//}
+          for(let encabezado of Object.keys(hojas[0].data[1]))
           {
-            console.table(column)
+            encabezados.push(encabezado)
           }
+          //Obtener Data//
+          console.log(Object.values(hojas[0].data[0]))
+          for(let data of hojas[0].data)
+          {
+            let index = hojas[0].data.indexOf(data)
+            let value = Object.values(hojas[0].data[index])
+            dataArchivo.push(value)
+          }
+          console.log(dataArchivo)
         })
         this2.setState({
           selectedFileDocument: target.files[0],
           hojas
         })
-        
       }
+      this.setState({
+        dataExist: dataArchivo,
+        encabezados: encabezados
+      })
     }
   } 
 
@@ -149,7 +156,6 @@ class GetDataFromExcelJusTInput extends React.Component
       handleInputChange
     } = this 
     return (
-      
       <>
       <Button onClick={this.showModal} className='btn-labeled mb-5' variant="success">
           <span className='btn-label'>
@@ -157,7 +163,8 @@ class GetDataFromExcelJusTInput extends React.Component
           </span>
           Excel
       </Button>
- 
+      
+      <TableData data={this.state.dataExist} encabezados={this.state.encabezados}/>
 
       <Modal show={this.state.show} onHide={this.hideModal} aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>

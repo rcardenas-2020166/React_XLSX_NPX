@@ -7,55 +7,30 @@ import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
 
 //Importar Componentes//
-export const TableData = ({ data, encabezados }) => {
-
+export const TableData = (props) => {
     return (
         <>
             <Table striped bordered hover>
-
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        { props.encabezados.map(encabezado =>
+                            <th key={encabezado}>{`${encabezado}`}</th>
+                            )
+                        }
                     </tr>
                 </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Rodrigo</td>
-                        <td>Cárdenas</td>
-                        <td>rcardenas</td>
-                    </tr>
-
-
+                <tbody>  
+                    { props.data.map(valueData =>
+                        <tr key={valueData}>
+                            {valueData.map(value =>
+                                <td key={value}>{`${value}`}</td>
+                            )
+                            }
+                        </tr>
+                    )  
+                    }
                 </tbody>
             </Table>
         </>
     )
-}
-
-TableData.propTypes =
-{
-    value: PropTypes.number.isRequired,
-}
-
-TableData.defaultProps =
-{
-    value: 0,
 }
