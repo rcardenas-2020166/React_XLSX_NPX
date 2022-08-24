@@ -7,9 +7,13 @@ import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
 
 //Importar Componentes//
-export const TableData = (props) => {
+export const TableData = (props) => 
+{
+    console.log(props.archivo)
     return (
         <>
+            <h1>{props.archivo}</h1>
+            <hr />
             <Table striped bordered hover>
                 <thead>
                     <tr>
