@@ -148,6 +148,7 @@ class GetDataFromExcelJusTInput extends React.Component
         encabezados: encabezados
       })
     }
+    this.hideModal();
   } 
 
 
@@ -183,7 +184,7 @@ class GetDataFromExcelJusTInput extends React.Component
               placeholder="Archivo de excel" 
             />
           </Modal.Body>
-                <Modal.Footer className='spacing-buttons'>
+                {/*<Modal.Footer className='spacing-buttons'>
                 <Button onClick={this.hideModal} variant="danger">
                     <i className="fa-solid fa-circle-xmark"></i>&nbsp;
                     Cancelar
@@ -192,7 +193,7 @@ class GetDataFromExcelJusTInput extends React.Component
                     <i className="fa-solid fa-circle-check"></i>&nbsp;
                     Subir Archivo
                 </Button>
-                </Modal.Footer>
+                </Modal.Footer>*/}
             </Modal>
       </> 
     );
