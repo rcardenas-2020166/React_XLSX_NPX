@@ -9,7 +9,6 @@ import Table from 'react-bootstrap/Table';
 //Importar Componentes//
 export const TableData = (props) => 
 {
-    console.log(props.archivo)
     return (
         <>
             <h1>{props.archivo}</h1>

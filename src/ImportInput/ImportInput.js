@@ -77,18 +77,26 @@ class GetDataFromExcelJusTInput extends React.Component
   };
 
   //Valida las Extensiones//
-  validExtension (extension)
+  validExtension (extension, value)
   {
     for (let existExtension of extensionXLSX)
     {
-
+      let validFile = value.split('\\');
+      validFile = validFile[2]
       if(existExtension === extension)
       {
+    
         alertValidExtension();
+        this.setState({
+          nameFile: validFile
+        })
       }
       else
       {
         alertNotValidExtension();
+        this.setState({
+          nameFile: ''
+        })
       }
       break;
     }
@@ -105,13 +113,11 @@ class GetDataFromExcelJusTInput extends React.Component
       [name]: value
     })
     let splitFile = value.split('.')
-    this.validExtension(splitFile[1])
+    this.validExtension(splitFile[1], value)
     let hojas = []
     let dataArchivo = [];
     let encabezados = [];
-    let splitName  = value.split('\\')
-    splitName = splitName[2];
-    
+
     if (name === 'file') {
       let reader = new FileReader()
       reader.readAsArrayBuffer(target.files[0])
@@ -145,11 +151,9 @@ class GetDataFromExcelJusTInput extends React.Component
           hojas
         })
       }
-      console.log(splitName)
       this.setState({
         dataExist: dataArchivo,
         encabezados: encabezados,
-        nameFile: splitName,
       })
     }
     this.hideModal();
