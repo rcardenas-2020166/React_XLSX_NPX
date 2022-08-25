@@ -43,8 +43,6 @@ const alertNotValidExtension = ()=>
   })
 }
 
-
-
 class GetDataFromExcelJusTInput extends React.Component 
 {
   
@@ -166,43 +164,33 @@ class GetDataFromExcelJusTInput extends React.Component
     } = this 
     return (
       <>
-      <Button onClick={this.showModal} className='btn-labeled mb-5' variant="success">
-          <span className='btn-label'>
-              <i className="fa fa-file-excel"></i>
-          </span>
-          Excel
-      </Button>
-      
-      <TableData data={this.state.dataExist} encabezados={this.state.encabezados} archivo={this.state.nameFile}/>
+          <Button onClick={this.showModal} className='btn-labeled mb-5' variant="success">
+            <span className='btn-label'>
+                <i className="fa fa-file-excel"></i>
+            </span>
+            Excel
+          </Button>
+          
+          <TableData data={this.state.dataExist} encabezados={this.state.encabezados} archivo={this.state.nameFile}/>
 
-      <Modal show={this.state.show} onHide={this.hideModal} aria-labelledby="contained-modal-title-vcenter" centered>
-        <Modal.Header closeButton>
-            <Modal.Title>
-                <i className="fa fa-file-excel"></i> &nbsp;
-                  Subir Archivo
-            </Modal.Title>
-        </Modal.Header>
-          <Modal.Body>
-            <input className="form-control"
-              required 
-              type="file" 
-              name="file" 
-              id="file" 
-              onChange={handleInputChange} 
-              placeholder="Archivo de excel" 
-            />
-          </Modal.Body>
-                {/*<Modal.Footer className='spacing-buttons'>
-                <Button onClick={this.hideModal} variant="danger">
-                    <i className="fa-solid fa-circle-xmark"></i>&nbsp;
-                    Cancelar
-                </Button>
-                <Button variant="success" >
-                    <i className="fa-solid fa-circle-check"></i>&nbsp;
-                    Subir Archivo
-                </Button>
-                </Modal.Footer>*/}
-            </Modal>
+          <Modal show={this.state.show} onHide={this.hideModal} aria-labelledby="contained-modal-title-vcenter" centered>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    <i className="fa fa-file-excel"></i> &nbsp;
+                      Subir Archivo
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <input className="form-control"
+                  required 
+                  type="file" 
+                  name="file" 
+                  id="file" 
+                  onChange={handleInputChange} 
+                  placeholder="Archivo de excel" 
+                />
+            </Modal.Body>
+          </Modal>
       </> 
     );
   }
